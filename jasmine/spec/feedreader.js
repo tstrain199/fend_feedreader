@@ -23,8 +23,8 @@ $(
        * page?
        */
       /* This is a simple test where we use Jasmine's toBeDefined
-        * matcher to verify the allFeeds array is defined. Also we 
-        * check that it is not empty by testing that lengthe is 
+        * matcher to verify the allFeeds array is defined. Also we
+        * check that it is not empty by testing that lengthe is
         greater than zero
         */
       it("are defined", function() {
@@ -84,9 +84,13 @@ $(
        */
       it("menu changes visibility", function() {
         $(".menu-icon-link").click();
-        expect(document.getElementsByClassName("menu-hidden").length).toBe(0);
+        expect(
+          document.querySelector("body").classList.contains("menu-hidden")
+        ).toBe(false);
         $(".menu-icon-link").click();
-        expect(document.getElementsByClassName("menu-hidden").length).toBe(1);
+        expect(
+          document.querySelector("body").classList.contains("menu-hidden")
+        ).toBe(true);
       });
     });
 
@@ -107,9 +111,7 @@ $(
       });
 
       it("completes work", function(done) {
-        expect(document.getElementsByClassName("entry-link").length > 0).toBe(
-          true
-        );
+        expect($("div.feed > a").length > 0).toBe(true);
         done();
       });
     });
@@ -129,17 +131,15 @@ $(
 
       beforeEach(function(done) {
         loadFeed(1, function() {
-          pageFeeds.push(
-            document.getElementsByClassName("entry-link")[0].innerText
-          );
+          pageFeeds.push($("div.feed > a")[0].innerText);
+          done();
+          //  console.log(pageFeeds);
         });
         loadFeed(2, function() {
-          pageFeeds.push(
-            document.getElementsByClassName("entry-link")[0].innerText
-          );
+          pageFeeds.push($("div.feed > a")[0].innerText);
           done();
         });
-        //  console.log(pageFeeds);
+        //console.log(pageFeeds);
       });
       it("content changes", function() {
         expect(pageFeeds[0] == pageFeeds[1]).toBe(false);
